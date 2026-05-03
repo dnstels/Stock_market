@@ -1,2 +1,6 @@
 */__pycache__/*
 *.pyc
+.venv*/*
+*/Untitled*.ipynb
+old_tests/*
+My_working/*
