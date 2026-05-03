@@ -42,7 +42,7 @@ class TestPoolBase(TestCase):
         self.assertTrue(sut.IsClose)
 
     @autodata(float)
-    def test_open_IsClose_False(self,init_price):
+    def test_open_InitPrice_IsClose_False(self,init_price):
         sut = PoolBase()
 
         sut.open(init_price)
@@ -54,6 +54,9 @@ class TestPoolBase(TestCase):
         # is_close.return_value = False
         # sut = PoolBase(...)
         # self.assertFalse(sut.IsClose)
+
+    def test_open_InitPool_IsClose_False(self):
+        raise NotImplementedError("Метод ещё не реализован")
 
     def test_close_IsClose_True(self):
         sut = PoolBase()
