@@ -1,18 +1,26 @@
 from random import uniform
+from abc import ABC, abstractmethod
 
-class PoolBase:
+class PoolBase(ABC):
     __pb: float = None
     __pn: float = None
     __pa: float = None
     __is_close = True
+    on_action: str = None
     
-    # def __init__(self, range: float, k_async: float=0.0):
-    def __init__(self,  *args, **kwargs):
-        k_async = kwargs.get("k_async", 0.0)
-        range_size = kwargs.get("range_size",uniform(0,1000))
+    def __init__(self, range_size: float, k_async: float=0.0):
+    # def __init__(self,  *args, **kwargs):
+        # k_async = kwargs.get("k_async", 0.0)
+        # range_size = kwargs.get("range_size",uniform(0,1000))
+        # range_size = kwargs.get("range_size",0.0)
         self.__set_async_factor(k_async)
         self.__range = range_size
-        self.__is_close = True
+        self.close("onInit")
+
+    # def __init__(self, pa: float, pb: float, pn: float):
+    #     self.__pa = pa
+    #     self.__pb = pb
+    #     self.__pn = pn
         
     def __set_async_factor(self, k) -> None:
         if k == 0:
@@ -42,11 +50,15 @@ class PoolBase:
             self.__pn = init_obj
             self.__calc_range()
         else:
-            raise ValueError(init_obj)
+            raise ValueError(f'Значение {init_obj} ошибочно.')
+        self.__description_close = ''
+        self.on_action = 'open'
         self.__is_close = False
 
-    def close(self) -> None:
-        self.__reset_range()
+    def close(self, description: str) -> None:
+        self.__description_close = description
+        # self.__reset_range()
+        self.on_action = 'close'
         self.__is_close = True
 
     def step(self,time,price):
@@ -71,3 +83,22 @@ class PoolBase:
     @property
     def IsClose(self): 
         return self.__is_close
+    
+    @property
+    def DescriptionClose(self):
+        return self.__description_close
+    
+    @abstractmethod
+    def Size(self):
+        ...
+
+    def get_Info(self):
+        return {
+            'Pb': self.Pb,
+            'Pn': self.Pn,
+            'Pa': self.Pa,
+            'Action': self.on_action,
+            # 'Size': self.__size,
+            'IsClose': self.IsClose,
+            'DescriptionClose': self.DescriptionClose,
+        }

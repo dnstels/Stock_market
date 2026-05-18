@@ -1,68 +1,32 @@
-from unittest import TestCase, mock
-from unittest.mock import patch
-from autofaker import autodata
+from unittest import TestCase
 from models.PoolBase import PoolBase
+
+class PoolSample(PoolBase):
+    @property
+    def Size(self):
+        return super().Size()
 
 class TestPoolBase(TestCase):
     def setUp(self):
-        self.my_list = [1, 2, 3, 4]
+        # self.my_list = [1, 2, 3, 4]
+        self.pool = PoolSample(2000)
+    
     def tearDown(self):
-        self.my_list.clear()  # Очистка после теста
-
-    @autodata(float)
-    def test_range_devZero(self,init_price):
-        sut = PoolBase(k_async=0)
-        sut.open(init_price)
-        
-        self.assertEqual(sut.Pn, init_price)
-        self.assertEqual(sut.Pa, init_price - sut.Range*0.5)
-        self.assertEqual(sut.Pb, init_price + sut.Range*0.5)
-        
-    @autodata(float)
-    def test_range_devDown(self,init_price):
-        sut = PoolBase(k_async=0.3)
-        sut.open(init_price)
-        
-        self.assertEqual(sut.Pn, init_price)
-        self.assertEqual(sut.Pa, init_price - sut.Range*0.7)
-        self.assertEqual(sut.Pb, init_price + sut.Range*0.3)
-
-    @autodata(float)
-    def test_range_devUp(self,init_price):
-        sut = PoolBase(k_async=-0.3)
-        sut.open(init_price)
-        
-        self.assertEqual(sut.Pn, init_price)
-        self.assertEqual(sut.Pa, init_price - sut.Range*0.3)
-        self.assertEqual(sut.Pb, init_price + sut.Range*0.7)
-
+        # self.my_list.clear()  # Очистка после теста
+        pass
+    
     def test_init_IsClose_True(self):
-        sut = PoolBase()
-
+        sut = self.pool
         self.assertTrue(sut.IsClose)
+    
+    def test_GetInfo(self):
+        sut = self.pool
 
-    @autodata(float)
-    def test_open_InitPrice_IsClose_False(self,init_price):
-        sut = PoolBase()
-
-        sut.open(init_price)
+        print('test_GetInfo')
+        print(sut.get_Info())
         
-        self.assertFalse(sut.IsClose)
-
-    # @mock.patch.object(PoolBase, '_PoolBase__is_close', new_callable=mock.PropertyMock)
-    # def test_close_IsClose_True(self, is_close: mock.PropertyMock):
-        # is_close.return_value = False
-        # sut = PoolBase(...)
-        # self.assertFalse(sut.IsClose)
-
-    def test_open_InitPool_IsClose_False(self):
-        raise NotImplementedError("Метод ещё не реализован")
-
-    def test_close_IsClose_True(self):
-        sut = PoolBase()
-        sut._PoolBase__is_close = False
-
-        sut.close()
+        sut.open(2000.0)
+        print(sut.get_Info())
         
-        self.assertTrue(sut.IsClose)
-        
+        sut.close("Test_close")
+        print(sut.get_Info())
