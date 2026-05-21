@@ -3,7 +3,7 @@ from tqdm import tqdm
 # import time
 import sys
 sys.path.append('./models')
-from models.Pool import Pool
+from models_old.Pool import Pool
 # from models.Short import Short
 
 

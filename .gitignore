@@ -7,3 +7,4 @@ My_working/*
 in_datas/.~lock*
 in_datas/~*
 .ipynb_checkpoints/*
+models_old/*

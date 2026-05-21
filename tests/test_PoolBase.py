@@ -1,5 +1,5 @@
 from unittest import TestCase
-from models.PoolBase import PoolBase
+from models_old.PoolBase import PoolBase
 
 class PoolSample(PoolBase):
     @property

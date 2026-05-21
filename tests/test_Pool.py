@@ -1,7 +1,7 @@
 from unittest import TestCase, mock
 from unittest.mock import patch
 from autofaker import autodata
-from models.Pool import Pool
+from models_old.Pool import Pool
 
 class TestPool(TestCase):
     def setUp(self):
